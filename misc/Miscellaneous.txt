@@ -1,0 +1,103 @@
+//api.js
+
+// Set up WebSocket server
+// const wss = new WebSocket.Server({ server });
+// const map = new Map()
+// wss.on("connection", async(ws, req) => {
+//     console.log("New WebSocket connection", );
+//     ws.id = uuidv4()
+//     // Listen for messages from the client
+//     ws.on("message", async (message) => {
+//       let text = JSON.parse(message)
+//       console.log('MESSAGE IS', message)
+//       console.log('Text', text.myName)
+//       if(text.myName){
+//       let currUser = text.myName
+//       console.log("HELLO THIS IS THE DATA",currUser);
+//       clnt.set(currUser, ws.id)
+//       map.set(currUser, ws)
+//     //   console.log("THE MAP IS", map)
+//       result = await dbFunctions.retrieveFriendsList(currUser);
+//       console.log("Friends List:", result)
+//       let status = []
+//     //   result.map(async (element, index) =>{
+//     //     if(element){
+//     //     let answer = await clnt.get(element)
+//     //     console.log("answer", answer)
+//     //     if(answer){
+//     //         status.push("Online")
+//     //     }
+//     //     else{
+//     //         status.push("Offline")
+//     //     }
+//     // }
+//     //   })
+//     let statusPromises = result.map(async (element) => {
+//         if (element) {
+//             let answer = await clnt.get(element);
+//             return answer ? "Online" : "Offline";  // Return status based on answer
+//         }
+//     });
+//     Promise.all(statusPromises).then((status) => {
+//         console.log("Status:", status);
+//         ws.send(JSON.stringify({ result, status, "friendsList": true }));
+//     });
+//     //   console.log("Status:",status)
+//     //   ws.send(JSON.stringify({ result, status, "friendsList": true }));
+//     }
+//     else{
+//         let info = JSON.parse(message)
+//         let user = info.user
+//         let tar = info.target
+//         let mess = info.message
+//         console.log(info)
+//         let targetExists = await clnt.get(`${tar}`)
+//         if(targetExists){
+//             console.log(map)
+//             socketOfInterest = map.get(`${tar}`)
+//             console.log(socketOfInterest)
+//             socketOfInterest.send(JSON.stringify({message, "text":"text"}))
+//             let querryResult = await dbFunctions.storeMessage(user, tar, mess, 1)
+//             console.log(querryResult)
+//             console.log("MESSAGE SENT IMMIDEATELY AND STORED")
+//         }else{
+//             let querryResult = await dbFunctions.storeMessage(user, tar, mess, 2)
+//             console.log(querryResult)
+//             console.log("MESSAGE STORED, FRIEND OFFLINE")
+//         }
+//     }
+//     });
+//     // Send message to the client on connection
+//     // Handle WebSocket disconnection
+//     ws.on("close", () => {
+//       console.log("WebSocket client disconnected");
+//     });
+// })
+// const list = await dbFunctions.retrieveFriendsList(user);
+            // console.log(list)
+//     let active = await clnt.get(receiver)
+//     let found = false;
+//     console.log(wss.clients)
+//     wss.clients.forEach((client) => {
+//         // Check if the WebSocket is open (readyState === WebSocket.OPEN)
+//         if (client.readyState === WebSocket.OPEN) {
+//             if(client.id === active){
+//                 console.log('Client is Online');
+//                 client.send(JSON.stringify({"message": message, "from": user, "to": receiver}));
+//                 console.log("message is,", JSON.stringify({"message": message, "from": user}))
+//                 found = true;
+//                 console.log("sent from server")
+//                 res.json({Message: "sent"})
+//             }
+//         }
+//     });
+//     console.log("not")
+//     !found ? res.json({MESSAGE: "COULDNT FIND CLINET"}) : console.log("Sent JSON already")
+// console.log(querryResult)
+// console.log("MESSAGE SENT IMMIDEATELY AND STORED")
+// let actual = 3003
+// server.listen(actual, () => {
+//     console.log('SOCKET LISTENING HERE', actual);
+// });
+
+//functions.js
