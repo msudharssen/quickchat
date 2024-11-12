@@ -3,10 +3,10 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const pool = mysql.createPool({
-    host: '127.0.0.1',
-    user: 'root',
-    password: "",
-    database: 'chatEz',
+    host: process.env.HOST,
+    user: process.env.D_USER,
+    password: process.env.D_PASS,
+    database: process.env.D_BASE,
 }).promise();
 
 async function register(user, email, pass){
