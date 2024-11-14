@@ -2,6 +2,9 @@ const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+/*
+pool is initiated and called when necessary
+*/
 const pool = mysql.createPool({
     host: process.env.HOST,
     user: process.env.D_USER,
@@ -9,6 +12,10 @@ const pool = mysql.createPool({
     database: process.env.D_BASE,
 }).promise();
 
+
+/*
+this function is called when registering
+*/
 async function register(user, email, pass){
     let hashed = await bcrypt.hash(pass, saltRounds);
     let result = await pool.query("Select * FROM users WHERE username = (?)", [user]);
@@ -24,6 +31,10 @@ async function register(user, email, pass){
     }
 }
 
+
+/*
+this function is called when logging in
+*/
 async function login(username, passW){
     let userInformation = '';
     let isMatch = false;
@@ -38,7 +49,9 @@ async function login(username, passW){
     }
     return isMatch;
 }
-
+/*
+this function stores messages as they are sent
+*/
 
 async function storeMessage(senderId, receiverId, messageContent, number) {
   let idSenderResult = await pool.query(`select id from users where username = ?;`,[senderId])
@@ -69,6 +82,10 @@ async function storeMessage(senderId, receiverId, messageContent, number) {
     // console.log("Error: Sender or Reciever Not Found")
   }
 }
+
+/*
+this function retreives past messages of two users
+*/
 
 async function retrieveMessage(userId, recieverId) {
     let first = await pool.query(`SELECT id FROM users
@@ -103,6 +120,10 @@ async function retrieveMessage(userId, recieverId) {
     return await toRet;
 }
 
+/*
+this function retrieves the friendslist of each user
+*/
+
 async function retrieveFriendsList(userId) {
     console.log("initially", userId)
 
@@ -129,6 +150,11 @@ async function retrieveFriendsList(userId) {
    
    
 }
+
+
+/*
+this function is called when looking for a user to add as a friend
+*/
 
 async function findUser(send_id, rec_id) {
     console.log("RECIEVER ID FROM FIND USER FUNCTION", rec_id)

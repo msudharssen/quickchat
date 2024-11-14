@@ -21,7 +21,9 @@ const clnt = redis.createClient();
 
 clnt.on('error', err => console.log('Redis Client Error', err));
 
-
+/*
+This function is is a redundant
+*/
 async function getGoing(){
 await clnt.connect();
 let m = await clnt.keys('*')
