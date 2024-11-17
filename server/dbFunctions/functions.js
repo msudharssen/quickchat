@@ -1,6 +1,9 @@
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const Groq = require("groq-sdk");
+require('dotenv').config();
+
 
 /*
 pool is initiated and called when necessary
@@ -189,5 +192,28 @@ async function findUser(send_id, rec_id) {
 
 
 
+const groq = new Groq({ apiKey:process.env.GROQ_API_KEY });
 
-module.exports = {register, login, storeMessage,findUser, retrieveMessage, retrieveFriendsList};
+async function main() {
+  const chatCompletion = await getGroqChatCompletion();
+  // Print the completion returned by the LLM.
+  console.log(chatCompletion.choices[0]?.message?.content || "");
+}
+
+async function getGroqChatCompletion() {
+  return groq.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: "Tell me a knock knock joke",
+      },
+    ],
+    model: "llama3-8b-8192",
+  });
+}
+
+
+
+
+
+module.exports = {register, login, storeMessage,findUser, retrieveMessage, retrieveFriendsList, main, getGroqChatCompletion};
