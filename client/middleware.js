@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
 export default function middleware(request) {
-  console.log("Middleware Running")
+  console.log("Hello BRO")
   const cookieStore = cookies()
   let values = cookieStore.get('userLoggedIn')
 

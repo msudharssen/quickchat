@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input"
 import { redirect, useRouter } from 'next/navigation'
 import { Button } from './ui/button'
 import { Toaster } from './ui/sonner'
-import Showresult from '../../../misc/Misc2'
 
 export default function NavbarUser() {
     const [friend, setFriend] = useState("");

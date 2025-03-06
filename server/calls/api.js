@@ -59,7 +59,6 @@ ios.on("connection", (socket) => {
         console.log("Current Users Map:", users);
     });
   
-   // Handle message sending
   socket.on("send_message", (data) => {
     console.log("Sending message:", data);
     // Retrieve target user's socket ID from map
@@ -68,7 +67,6 @@ ios.on("connection", (socket) => {
     socket.to(targetSocketId).emit("receive_message", data);
 });
 
-  // Handle user disconnection
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
   });
@@ -77,9 +75,9 @@ ios.on("connection", (socket) => {
 app.use(session({
     name: "sud",
     store: new RedisStore({ client: redisClient }),
-    secret: 'session-information', // Replace with a strong secret
-    resave: false, // Save session even if not modified
-    saveUninitialized: false, // Save uninitialized sessions
+    secret: 'session-information', 
+    resave: false, 
+    saveUninitialized: false, 
     cookie: {
         httpOnly: true,
         maxAge: 1000* 60 * 60 * 24,
@@ -94,11 +92,15 @@ app.get("/", (req, res) =>{
     res.send("Hello World");
 });
 
+//practice route
 app.get("/private", (req, res) =>{
     if (!req.cookies.token) return res.status(401).send();
-  res.status(200).json({ secret: "Ginger ale is a specific Root Beer" });
+  res.status(200).json({ secret: "chat with friends" });
 });
 
+
+
+//register a user, with a username, email, and password
 app.post(`/call/routereg`, async (req, res) =>{
     let user = req.body.username;
     let address = req.body.email;
@@ -119,9 +121,12 @@ app.post(`/call/routereg`, async (req, res) =>{
     }
 });
 
+
+//login a user, with a username and password
 app.post(`/api/verify`, async (req, res) =>{
         let user = req.body.username;
         let passW = req.body.password;
+        console.log(user, passW)
         let returned = await dbFunctions.login(user,passW)
            if(returned){
            let answer = await clnt.get(user)
@@ -145,6 +150,7 @@ app.post(`/api/verify`, async (req, res) =>{
            }
     });
 
+    //logout a user
     app.post('/api/logout', async (req, res) => {
         res.clearCookie('userLoggedIn', { path: '/', domain: 'localhost', secure: false, sameSite: 'Lax' });
         req.session.destroy((err) => {
@@ -158,6 +164,8 @@ app.post(`/api/verify`, async (req, res) =>{
 
 });
 
+
+//get message list to display to user
 app.post('/api/retrievemessage',  async (req, res) => {
     let receiver = req.body.rec
     let user = req.body.user
@@ -166,6 +174,8 @@ app.post('/api/retrievemessage',  async (req, res) => {
     res.json({Message: answer})
 })
 
+
+//get friend list to display to user
 app.post('/api/friendslist', async(req, res) =>{
     let user = req.body.user
     result = await dbFunctions.retrieveFriendsList(user);
@@ -182,6 +192,8 @@ app.post('/api/friendslist', async(req, res) =>{
     res.send(JSON.stringify({friends: result, stat: status}))
 })
 
+
+//send a message to a user
 app.post('/api/sendmessages',  async (req, res) => {
 
     let user = req.body.user
@@ -202,6 +214,7 @@ else{
 
 
 
+//storing a message
 app.post('/api/messages',  async (req, res) => {
     console.log("we are listening in the messages")
     console.log(req.session.id)
@@ -215,6 +228,8 @@ app.post('/api/messages',  async (req, res) => {
     res.json({Message: "RECIEVED"})
 })
 
+
+//find a frined to add to your friend list
 app.post('/api/findfriends',  async (req, res) => {
     let sender = req.body.currentUser
     console.log(`sender is from api: ${sender}`)

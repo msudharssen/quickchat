@@ -9,10 +9,10 @@ require('dotenv').config();
 pool is initiated and called when necessary
 */
 const pool = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.D_USER,
-    password: process.env.D_PASS,
-    database: process.env.D_BASE,
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'chatEz',
 }).promise();
 
 
@@ -50,6 +50,7 @@ async function login(username, passW){
     if(userInformation.length > 0){
         isMatch = await bcrypt.compare(passW, userInformation[0].password);
     }
+    console.log(userInformation)
     return isMatch;
 }
 /*
@@ -186,34 +187,15 @@ async function findUser(send_id, rec_id) {
 
     console.log("Username is: ", await list)
     console.log("Friend is: ", await list2)
-   
     return 200;
 }
 
 
 
-const groq = new Groq({ apiKey:process.env.GROQ_API_KEY });
-
-async function main() {
-  const chatCompletion = await getGroqChatCompletion();
-  // Print the completion returned by the LLM.
-  console.log(chatCompletion.choices[0]?.message?.content || "");
-}
-
-async function getGroqChatCompletion() {
-  return groq.chat.completions.create({
-    messages: [
-      {
-        role: "user",
-        content: "Tell me a knock knock joke",
-      },
-    ],
-    model: "llama3-8b-8192",
-  });
-}
 
 
 
 
 
-module.exports = {register, login, storeMessage,findUser, retrieveMessage, retrieveFriendsList, main, getGroqChatCompletion};
+
+module.exports = {register, login, storeMessage,findUser, retrieveMessage, retrieveFriendsList};
